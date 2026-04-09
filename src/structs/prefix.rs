@@ -1,5 +1,7 @@
 //! Holds prefix-command definition structs.
 
+use std::fmt::Debug;
+
 use crate::{serenity_prelude as serenity, BoxFuture};
 
 /// The event that triggered a prefix command execution
@@ -58,6 +60,24 @@ pub struct PrefixContext<'a, U, E> {
     #[doc(hidden)]
     pub __non_exhaustive: (),
 }
+
+// manual Debug impl to remove use of derivative proc macro
+impl<'a, U: Debug, E: Debug> Debug for PrefixContext<'a, U, E> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PrefixContext")
+            .field("msg", &self.msg)
+            .field("prefix", &self.prefix)
+            .field("invoked_command_name", &self.invoked_command_name)
+            .field("args", &self.args)
+            .field("parent_commands", &self.parent_commands)
+            .field("command", &self.command)
+            .field("invocation_data", &self.invocation_data)
+            .field("trigger", &self.trigger)
+            .field("__non_exhaustive", &self.__non_exhaustive)
+            .finish()
+    }
+}
+
 // manual Copy+Clone implementations because Rust is getting confused about the type parameter
 impl<U, E> Clone for PrefixContext<'_, U, E> {
     fn clone(&self) -> Self {

@@ -1,5 +1,7 @@
 //! Holds application command definition structs.
 
+use std::fmt::Debug;
+
 use crate::{serenity_prelude as serenity, BoxFuture};
 
 /// Specifies if the current invokation is from a Command or Autocomplete.
@@ -49,6 +51,23 @@ pub struct ApplicationContext<'a, U, E> {
     #[doc(hidden)]
     pub __non_exhaustive: (),
 }
+
+// manual Debug impl to remove use of derivative proc macro
+impl<'a, U: Debug, E: Debug> Debug for ApplicationContext<'a, U, E> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ApplicationContext")
+            .field("interaction", &self.interaction)
+            .field("interaction_type", &self.interaction_type)
+            .field("args", &self.args)
+            .field("has_sent_initial_response", &self.has_sent_initial_response)
+            .field("parent_commands", &self.parent_commands)
+            .field("command", &self.command)
+            .field("invocation_data", &self.invocation_data)
+            .field("__non_exhaustive", &self.__non_exhaustive)
+            .finish()
+    }
+}
+
 impl<U, E> Clone for ApplicationContext<'_, U, E> {
     fn clone(&self) -> Self {
         *self
@@ -103,6 +122,18 @@ pub enum ContextMenuCommandAction<U, E> {
     #[doc(hidden)]
     __NonExhaustive,
 }
+
+// manual Debug impl to remove use of derivative proc macro
+impl<U: Debug, E: Debug> Debug for ContextMenuCommandAction<U, E> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::User(_) => f.debug_tuple("User").finish(),
+            Self::Message(_) => f.debug_tuple("Message").finish(),
+            Self::__NonExhaustive => write!(f, "__NonExhaustive"),
+        }
+    }
+}
+
 impl<U, E> Copy for ContextMenuCommandAction<U, E> {}
 impl<U, E> Clone for ContextMenuCommandAction<U, E> {
     fn clone(&self) -> Self {
@@ -165,6 +196,22 @@ pub struct CommandParameter<U, E> {
     >,
     #[doc(hidden)]
     pub __non_exhaustive: (),
+}
+
+// manual Debug impl to remove use of derivative proc macro
+impl<U: Debug, E: Debug> Debug for CommandParameter<U, E> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("CommandParameter")
+            .field("name", &self.name)
+            .field("name_localizations", &self.name_localizations)
+            .field("description", &self.description)
+            .field("description_localizations", &self.description_localizations)
+            .field("required", &self.required)
+            .field("channel_types", &self.channel_types)
+            .field("choices", &self.choices)
+            .field("__non_exhaustive", &self.__non_exhaustive)
+            .finish()
+    }
 }
 
 impl<U, E> CommandParameter<U, E> {
