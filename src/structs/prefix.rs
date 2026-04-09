@@ -19,11 +19,9 @@ pub enum MessageDispatchTrigger {
 /// Prefix-specific context passed to command invocations.
 ///
 /// Contains the trigger message, the Discord connection management stuff, and the user data.
-#[derive(derivative::Derivative)]
-#[derivative(Debug(bound = ""))]
 pub struct PrefixContext<'a, U, E> {
     /// Serenity's context, like HTTP or cache
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub serenity_context: &'a serenity::Context,
     /// The invoking user message
     pub msg: &'a serenity::Message,
@@ -36,7 +34,7 @@ pub struct PrefixContext<'a, U, E> {
     /// Read-only reference to the framework
     ///
     /// Useful if you need the list of commands, for example for a custom help command
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub framework: crate::FrameworkContext<'a, U, E>,
     /// If the invoked command was a subcommand, these are the parent commands, ordered top down.
     pub parent_commands: &'a [&'a crate::Command<U, E>],
@@ -44,14 +42,14 @@ pub struct PrefixContext<'a, U, E> {
     pub command: &'a crate::Command<U, E>,
     /// Your custom user data
     // TODO: redundant with framework
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub data: &'a U,
     /// Custom user data carried across a single command invocation
     pub invocation_data: &'a tokio::sync::Mutex<Box<dyn std::any::Any + Send + Sync>>,
     /// How this command invocation was triggered
     pub trigger: MessageDispatchTrigger,
     /// The function that is called to execute the actual command
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub action: fn(
         PrefixContext<'_, U, E>,
     ) -> crate::BoxFuture<'_, Result<(), crate::FrameworkError<'_, U, E>>>,
@@ -84,8 +82,6 @@ pub enum Prefix {
 }
 
 /// Prefix-specific framework configuration
-#[derive(derivative::Derivative)]
-#[derivative(Debug(bound = ""))]
 pub struct PrefixFrameworkOptions<U, E> {
     /// The main bot prefix. Can be set to None if the bot supports only
     /// [dynamic prefixes](Self::dynamic_prefix).
@@ -99,7 +95,7 @@ pub struct PrefixFrameworkOptions<U, E> {
     /// Override this field for a simple dynamic prefix which changes depending on the guild or user.
     ///
     /// For more advanced dynamic prefixes, see [`Self::stripped_dynamic_prefix`]
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub dynamic_prefix:
         Option<fn(crate::PartialContext<'_, U, E>) -> BoxFuture<'_, Result<Option<String>, E>>>,
     /// Callback invoked on every message to strip the prefix off an incoming message.
@@ -116,7 +112,7 @@ pub struct PrefixFrameworkOptions<U, E> {
     /// Ok(None)
     /// # })), ..Default::default() };
     /// ```
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub stripped_dynamic_prefix: Option<
         for<'a> fn(
             &'a serenity::Context,

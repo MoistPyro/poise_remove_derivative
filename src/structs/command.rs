@@ -4,19 +4,17 @@ use crate::{serenity_prelude as serenity, BoxFuture};
 
 /// Type returned from `#[poise::command]` annotated functions, which contains all of the generated
 /// prefix and application commands
-#[derive(derivative::Derivative)]
-#[derivative(Default(bound = ""), Debug(bound = ""))]
 pub struct Command<U, E> {
     // =============
     /// Callback to execute when this command is invoked in a prefix context
-    #[derivative(Debug = "ignore")]
+    //#[derivative(Debug = "ignore")]
     pub prefix_action: Option<
         for<'a> fn(
             crate::PrefixContext<'a, U, E>,
         ) -> BoxFuture<'a, Result<(), crate::FrameworkError<'a, U, E>>>,
     >,
     /// Callback to execute when this command is invoked in a slash context
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub slash_action: Option<
         for<'a> fn(
             crate::ApplicationContext<'a, U, E>,
@@ -99,17 +97,17 @@ pub struct Command<U, E> {
     /// If true, the command may only run in NSFW channels
     pub nsfw_only: bool,
     /// Command-specific override for [`crate::FrameworkOptions::on_error`]
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub on_error: Option<fn(crate::FrameworkError<'_, U, E>) -> BoxFuture<'_, ()>>,
     /// If any of these functions returns false, this command will not be executed.
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub checks: Vec<fn(crate::Context<'_, U, E>) -> BoxFuture<'_, Result<bool, E>>>,
     /// List of parameters for this command
     ///
     /// Used for registering and parsing slash commands. Can also be used in help commands
     pub parameters: Vec<crate::CommandParameter<U, E>>,
     /// Arbitrary data, useful for storing custom metadata about your commands
-    #[derivative(Default(value = "Box::new(())"))]
+    // #[derivative(Default(value = "Box::new(())"))]
     pub custom_data: Box<dyn std::any::Any + Send + Sync>,
 
     // ============= Prefix-specific data

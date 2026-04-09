@@ -12,11 +12,9 @@ pub enum CommandInteractionType {
 }
 
 /// Application command specific context passed to command invocations.
-#[derive(derivative::Derivative)]
-#[derivative(Debug(bound = ""))]
 pub struct ApplicationContext<'a, U, E> {
     /// Serenity's context, like HTTP or cache
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub serenity_context: &'a serenity::Context,
     /// The interaction which triggered this command execution.
     pub interaction: &'a serenity::CommandInteraction,
@@ -35,7 +33,7 @@ pub struct ApplicationContext<'a, U, E> {
     /// Read-only reference to the framework
     ///
     /// Useful if you need the list of commands, for example for a custom help command
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub framework: crate::FrameworkContext<'a, U, E>,
     /// If the invoked command was a subcommand, these are the parent commands, ordered top down.
     pub parent_commands: &'a [&'a crate::Command<U, E>],
@@ -43,7 +41,7 @@ pub struct ApplicationContext<'a, U, E> {
     pub command: &'a crate::Command<U, E>,
     /// Your custom user data
     // TODO: redundant with framework
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub data: &'a U,
     /// Custom user data carried across a single command invocation
     pub invocation_data: &'a tokio::sync::Mutex<Box<dyn std::any::Any + Send + Sync>>,
@@ -85,12 +83,10 @@ impl<U, E> ApplicationContext<'_, U, E> {
 }
 
 /// Possible actions that a context menu entry can have
-#[derive(derivative::Derivative)]
-#[derivative(Debug(bound = ""))]
 pub enum ContextMenuCommandAction<U, E> {
     /// Context menu entry on a user
     User(
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         fn(
             ApplicationContext<'_, U, E>,
             serenity::User,
@@ -98,7 +94,7 @@ pub enum ContextMenuCommandAction<U, E> {
     ),
     /// Context menu entry on a message
     Message(
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         fn(
             ApplicationContext<'_, U, E>,
             serenity::Message,
@@ -126,8 +122,6 @@ pub struct CommandParameterChoice {
 }
 
 /// A single parameter of a [`crate::Command`]
-#[derive(Clone, derivative::Derivative)]
-#[derivative(Debug(bound = ""))]
 pub struct CommandParameter<U, E> {
     /// Name of this command parameter
     pub name: String,
@@ -154,12 +148,12 @@ pub struct CommandParameter<U, E> {
     /// |b| b.kind(serenity::CommandOptionType::Integer).min_int_value(0).max_int_value(u64::MAX)
     /// # ;
     /// ```
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub type_setter: Option<fn(serenity::CreateCommandOption) -> serenity::CreateCommandOption>,
     /// Optionally, a callback that is invoked on autocomplete interactions. This closure should
     /// extract the partial argument from the given JSON value and generate the autocomplete
     /// response which contains the list of autocomplete suggestions.
-    #[derivative(Debug = "ignore")]
+    // #[derivative(Debug = "ignore")]
     pub autocomplete_callback: Option<
         for<'a> fn(
             crate::ApplicationContext<'a, U, E>,

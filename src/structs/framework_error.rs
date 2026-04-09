@@ -6,8 +6,6 @@ use crate::serenity_prelude as serenity;
 /// have an `error` field with your error type `E` in it), or originating from within the framework.
 ///
 /// These errors are handled with the [`crate::FrameworkOptions::on_error`] callback
-#[derive(derivative::Derivative)]
-#[derivative(Debug)]
 pub enum FrameworkError<'a, U, E> {
     /// User code threw an error in user data setup
     #[non_exhaustive]
@@ -15,12 +13,12 @@ pub enum FrameworkError<'a, U, E> {
         /// Error which was thrown in the setup code
         error: E,
         /// The Framework passed to the event
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         framework: &'a crate::Framework<U, E>,
         /// Discord Ready event data present during setup
         data_about_bot: &'a serenity::Ready,
         /// The serenity Context passed to the event
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         ctx: &'a serenity::Context,
     },
     /// User code threw an error in generic event event handler
@@ -33,7 +31,7 @@ pub enum FrameworkError<'a, U, E> {
         /// Which event was being processed when the error occurred
         event: &'a serenity::FullEvent,
         /// The Framework passed to the event
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         framework: crate::FrameworkContext<'a, U, E>,
     },
     /// Error occurred during command execution
@@ -156,7 +154,7 @@ pub enum FrameworkError<'a, U, E> {
         /// Error which was thrown in the dynamic prefix code
         error: E,
         /// General context
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         ctx: crate::PartialContext<'a, U, E>,
         /// Message which the dynamic prefix callback was evaluated upon
         msg: &'a serenity::Message,
@@ -165,7 +163,7 @@ pub enum FrameworkError<'a, U, E> {
     #[non_exhaustive]
     UnknownCommand {
         /// Serenity's Context
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         ctx: &'a serenity::Context,
         /// The message in question
         msg: &'a serenity::Message,
@@ -176,10 +174,10 @@ pub enum FrameworkError<'a, U, E> {
         /// This is a single field instead of two fields (command name and args) due to subcommands
         msg_content: &'a str,
         /// Framework context
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         framework: crate::FrameworkContext<'a, U, E>,
         /// See [`crate::Context::invocation_data`]
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         invocation_data: &'a tokio::sync::Mutex<Box<dyn std::any::Any + Send + Sync>>,
         /// Which event triggered the message parsing routine
         trigger: crate::MessageDispatchTrigger,
@@ -187,11 +185,11 @@ pub enum FrameworkError<'a, U, E> {
     /// The command name from the interaction is unrecognized
     #[non_exhaustive]
     UnknownInteraction {
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         /// Serenity's Context
         ctx: &'a serenity::Context,
         /// Framework context
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         framework: crate::FrameworkContext<'a, U, E>,
         /// The interaction in question
         interaction: &'a serenity::CommandInteraction,
@@ -201,11 +199,11 @@ pub enum FrameworkError<'a, U, E> {
     NonCommandMessage {
         /// The error thrown by user code
         error: E,
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         /// Serenity's Context
         ctx: &'a serenity::Context,
         /// Framework context
-        #[derivative(Debug = "ignore")]
+        // #[derivative(Debug = "ignore")]
         framework: crate::FrameworkContext<'a, U, E>,
         /// The interaction in question
         msg: &'a serenity::Message,
